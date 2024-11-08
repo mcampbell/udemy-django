@@ -15,14 +15,18 @@ month_names = [
     "november",
     "december",
 ]
-challenges = dict([(month, f"Your challenge for {month.title()}") for month in month_names])
+challenges = dict(
+    [(month, f"Your challenge for {month.title()}") for month in month_names]
+)
 
 
 def index(request: HttpRequest) -> HttpResponse:
-    response_links = "\n".join([
-        f"<li><a href='{reverse('string-monthly-challenge', args=[month_name])}'>{month_name.title()}</a></li>"
-        for month_name in challenges.keys()
-    ])
+    response_links = "\n".join(
+        [
+            f"<li><a href='{reverse('string-monthly-challenge', args=[month_name])}'>{month_name.title()}</a></li>"
+            for month_name in challenges.keys()
+        ]
+    )
 
     return HttpResponse(
         f"""<ul>
