@@ -23,7 +23,15 @@ def test_no_month_given(page: Page) -> None:
 
 def test_any_month_with_string(page: Page) -> None:
     page.goto("http://localhost:8000/challenges/january")
-    expect(page.locator("#challenge")).to_contain_text("Challenge goes here.")
+    expect(page.locator("h1")).to_contain_text("Challenge For January")
+    expect(page.locator("#challenge")).to_contain_text("Your challenge for January")
+    expect(page).to_have_title("January Challenge")
+
+
+def test_any_month_with_int(page: Page) -> None:
+    page.goto("http://localhost:8000/challenges/1")
+    expect(page.locator("h1")).to_contain_text("Challenge For January")
+    expect(page.locator("#challenge")).to_contain_text("Your challenge for January")
 
 
 def test_bad_month(page: Page) -> None:
@@ -31,11 +39,6 @@ def test_bad_month(page: Page) -> None:
     expect(page.locator("body")).to_contain_text("Invalid month")
 
 
-def test_any_month_with_int(page: Page) -> None:
-    page.goto("http://localhost:8000/challenges/1")
-    expect(page.locator("#challenge")).to_contain_text("Challenge goes here.")
-
-
 def test_bad_integer_month(page: Page) -> None:
     page.goto("http://localhost:8000/challenges/13")
-    expect(page.locator("#challenge")).to_contain_text("Challenge goes here.")
+    expect(page.locator("body")).to_contain_text("Invalid month")
