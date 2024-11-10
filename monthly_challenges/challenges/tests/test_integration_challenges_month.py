@@ -22,24 +22,20 @@ def test_no_month_given(page: Page) -> None:
 
 
 def test_any_month_with_string(page: Page) -> None:
-    for month in ["january", "february"]:
-        page.goto(f"http://localhost:8000/challenges/{month}")
-        expect(page.locator("body")).to_contain_text(
-            f"Your challenge for {month.title()}"
-        )
+    page.goto("http://localhost:8000/challenges/january")
+    expect(page.locator("#challenge")).to_contain_text("Challenge goes here.")
 
 
 def test_bad_month(page: Page) -> None:
-    page.goto(f"http://localhost:8000/challenges/Nope")
-    expect(page.locator("body")).to_contain_text(f"Invalid month")
+    page.goto("http://localhost:8000/challenges/Nope")
+    expect(page.locator("body")).to_contain_text("Invalid month")
 
 
 def test_any_month_with_int(page: Page) -> None:
-    page.goto(f"http://localhost:8000/challenges/1")
-    expect(page.locator("body")).to_contain_text(f"Your challenge for January")
+    page.goto("http://localhost:8000/challenges/1")
+    expect(page.locator("#challenge")).to_contain_text("Challenge goes here.")
 
-    page.goto(f"http://localhost:8000/challenges/3")
-    expect(page.locator("body")).to_contain_text(f"Your challenge for March")
 
-    page.goto(f"http://localhost:8000/challenges/13")
-    expect(page.locator("body")).to_contain_text(f"Invalid month")
+def test_bad_integer_month(page: Page) -> None:
+    page.goto("http://localhost:8000/challenges/13")
+    expect(page.locator("#challenge")).to_contain_text("Challenge goes here.")

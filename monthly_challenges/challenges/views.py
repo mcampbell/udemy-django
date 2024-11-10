@@ -1,4 +1,6 @@
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from django.template.exceptions import TemplateDoesNotExist
+from django.template.loader import render_to_string
 from django.urls import reverse
 
 month_names = [
@@ -38,8 +40,8 @@ def index(request: HttpRequest) -> HttpResponse:
 # Create your views here.
 def monthly_goal(request: HttpRequest, month: str) -> HttpResponse:
     try:
-        return HttpResponse(challenges[month])
-    except KeyError:
+        return HttpResponse(render_to_string("challenges/challenge.html"))
+    except (KeyError, TemplateDoesNotExist):
         return HttpResponse("Invalid month.")
 
 
