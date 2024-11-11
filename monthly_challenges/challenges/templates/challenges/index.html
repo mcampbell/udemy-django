@@ -9,7 +9,8 @@
 <ul id="challenges">
     {% for month in months %}
         <li>
-            <a href="/challenges/{{ month|lower }}" data-testid="{{ month|lower }}-challenge">{{ month|title }}</a>
+            <a href="{% url 'string-monthly-challenge' month=month|lower %}"
+               data-testid="{{ month|lower }}-challenge">{{ month|title }}</a>
         </li>
     {% endfor %}
 </ul>
