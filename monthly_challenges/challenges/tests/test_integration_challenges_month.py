@@ -1,9 +1,8 @@
 from playwright.sync_api import Page, expect
 
 
-def test_no_month_given(page: Page) -> None:
+def test_index(page: Page) -> None:
     page.goto("http://localhost:8000/challenges/")
-    locator = page.locator("body")
     for month in [
         "January",
         "February",
@@ -18,6 +17,7 @@ def test_no_month_given(page: Page) -> None:
         "November",
         "December",
     ]:
+        locator = page.get_by_test_id(f"{month.lower()}-challenge")
         expect(locator).to_contain_text(month)
 
 

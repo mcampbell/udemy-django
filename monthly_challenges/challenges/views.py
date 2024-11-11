@@ -23,19 +23,7 @@ challenges = dict(
 
 
 def index(request: HttpRequest) -> HttpResponse:
-    response_links = "\n".join(
-        [
-            f"<li><a href='{reverse('string-monthly-challenge', args=[month_name])}'>{month_name.title()}</a></li>"
-            for month_name in challenges.keys()
-        ]
-    )
-
-    return HttpResponse(
-        f"""<ul>
-        {response_links}
-        </ul>"""
-    )
-
+    return render(request, "challenges/index.html", {"months": month_names})
 
 # Create your views here.
 def monthly_goal(request: HttpRequest, month: str) -> HttpResponse:
