@@ -25,6 +25,7 @@ challenges = dict(
 def index(request: HttpRequest) -> HttpResponse:
     return render(request, "challenges/index.html", {"months": month_names})
 
+
 # Create your views here.
 def monthly_goal(request: HttpRequest, month: str) -> HttpResponse:
     try:
