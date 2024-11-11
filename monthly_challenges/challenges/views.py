@@ -18,8 +18,9 @@ month_names = [
     "december",
 ]
 challenges = dict(
-    [(month, f"Your challenge for {month.title()}") for month in month_names]
+    [(month, f"Your challenge for {month.title()}") for month in month_names ]
 )
+challenges['may'] = None
 
 
 def index(request: HttpRequest) -> HttpResponse:
