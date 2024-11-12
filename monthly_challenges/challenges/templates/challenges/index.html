@@ -3,6 +3,7 @@
 {% block page_title %}Monthly Challenges{% endblock %}
 
 {% block body_content %}
+    {% include "challenges/includes/header.html" %}
     <ul id="challenges">
         {% for month in months %}
             <li>
