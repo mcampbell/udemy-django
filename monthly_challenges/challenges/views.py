@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.template.exceptions import TemplateDoesNotExist
 from django.urls import reverse
@@ -39,7 +39,7 @@ def monthly_goal(request: HttpRequest, month: str) -> HttpResponse:
             },
         )
     except (KeyError, TemplateDoesNotExist):
-        return HttpResponse("Invalid month.")
+        raise Http404()
 
 
 def monthly_goal_by_cardinal(request: HttpRequest, month: int) -> HttpResponse:
