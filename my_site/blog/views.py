@@ -1,9 +1,10 @@
 from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 
 
 # Create your views here.
 def welcome(request: HttpRequest) -> HttpResponse:
-    return HttpResponse("Welcome to the blog!")
+    return render(request, "blog/index.html")
 
 
 def post_list(request: HttpRequest) -> HttpResponse:
