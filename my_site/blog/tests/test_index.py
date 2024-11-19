@@ -12,5 +12,6 @@ def test_root_goes_to_blog(page: Page) -> None:
 
 
 def _common_expectations(page: Page) -> None:
-    expect(page.locator("text=Welcome to my site!")).to_be_visible()
     expect(page).to_have_title("Blog Index")
+    expect(page.locator("header#main-navigation h1 a")).to_have_text("My Udemy Blog")
+    expect(page.locator("section#welcome header h2")).to_have_text("My Blog")
