@@ -8,7 +8,7 @@ def welcome(request: HttpRequest) -> HttpResponse:
 
 
 def post_list(request: HttpRequest) -> HttpResponse:
-    return HttpResponse("List of posts")
+    return render(request, "blog/all-posts.html")
 
 
 def post_detail(request: HttpRequest, slug: str) -> HttpResponse:

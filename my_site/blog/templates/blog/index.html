@@ -6,17 +6,11 @@
 {% endblock %}
 
 {% block stylesheets %}
+    <link rel="stylesheet" href="{% static "blog/post.css" %}">
     <link rel="stylesheet" href="{% static "blog/index.css" %}">
 {% endblock %}
 
 {% block content %}
-    <header id="main-navigation">
-        <h1><a href="">My Udemy Blog</a></h1>
-        <nav>
-            <a href="">All posts</a>
-        </nav>
-    </header>
-
     <section id="welcome">
         <header id="foo">
             <img src="{% static "blog/images/max.png" %}" alt="me">
@@ -31,15 +25,7 @@
     <section id="latest-posts">
         <h2>Latest Posts</h2>
         <ul>
-            <li>
-                <article class="post">
-                    <a href=""><img src="{% static "blog/images/mountains.jpg" %}" alt="Mountain Hiking"></a>
-                    <div class="post__content">
-                        <h3>Mountain Hiking</h3>
-                        <p>So good.</p>
-                    </div>
-                </article>
-            </li>
+            {% include "blog/includes/post-preview.html" %}
         </ul>
     </section>
 
