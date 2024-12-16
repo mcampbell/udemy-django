@@ -5,7 +5,14 @@
 {% block content %}
     <ul>
         {% for book in books %}
-            <li><a href="{% url 'book_detail' id=book.id %}">{{ book.title }}</a></li>
+            <li><a href="{% url 'book_detail_by_slug' slug=book.slug %}">{{ book.title }}</a></li>
+            <!--
+            This also works, using the Model's self tag:
+            <li><a href="{{ book.get_absolute_url }}">{{ book.title }}</a></li>
+            -->
         {% endfor %}
     </ul>
+    <hr>
+    <p>Average Rating: {{ average_rating }}</p>
+    <p>Number of Books: {{ count }}</p>
 {% endblock %}
