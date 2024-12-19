@@ -4,13 +4,19 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 
+class Author(models.Model):
+    first_name = models.CharField(max_length=100, null=False, blank=True)
+    last_name = models.CharField(max_length=100, null=False, blank=True)
+
+
 class Book(models.Model):
     title = models.CharField(max_length=100)
-    rating = models.IntegerField(validators=[
-        MinValueValidator(1),
-        MaxValueValidator(5)
-    ])
-    author = models.CharField(max_length=100, default="Unknown")
+    rating = models.IntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
+
+    # I don't like null-true here, but it's in Max's tutorial so we'll go with that for now.
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
     is_bestseller = models.BooleanField(default=False)
     slug = models.SlugField(default="", null=False)
 
