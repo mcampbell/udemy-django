@@ -4,12 +4,24 @@ from django.urls import reverse
 from django.utils.text import slugify
 
 
+class Address(models.Model):
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+
+    def __str__(self):
+        return ", ".join([self.city, self.state])
+
+
 class Author(models.Model):
     first_name = models.CharField(max_length=100, null=False, blank=True)
     last_name = models.CharField(max_length=100, null=False, blank=True)
+    address = models.OneToOneField(Address, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return " ".join([self.first_name, self.last_name])
+        ret = " ".join([self.first_name, self.last_name])
+        if self.address:
+            ret += f" ({self.address})"
+        return ret.strip()
 
 
 class Book(models.Model):
