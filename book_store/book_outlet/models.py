@@ -3,6 +3,13 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse
 from django.utils.text import slugify
 
+class Country(models.Model):
+    name = models.CharField(max_length=100, null=False)
+    code = models.CharField(max_length=2, null=False)
+
+    def __str__(self):
+        return f"{self.name} ({self.code})"
+
 
 class Address(models.Model):
     city = models.CharField(max_length=100)
@@ -34,6 +41,7 @@ class Book(models.Model):
     author = models.ForeignKey(Author, on_delete=models.CASCADE, null=True)
     is_bestseller = models.BooleanField(default=False)
     slug = models.SlugField(default="", null=False)
+    published_countries = models.ManyToManyField(Country)
 
     def get_absolute_url(self):
         return reverse("book_detail", args=[self.id])
