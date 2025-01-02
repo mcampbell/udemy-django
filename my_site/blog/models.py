@@ -6,18 +6,27 @@ class Author(models.Model):
     last_name = models.CharField(max_length=150)
     email = models.EmailField()
 
+    def __str__(self):
+        return self.full_name()
+
+    def full_name(self):
+        return " ".join([self.first_name, self.last_name])
+
 
 class Tag(models.Model):
     caption = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.caption
 
 
 class Post(models.Model):
     # Normally this'd be a URL, but for simplicity, we're just using the image name which we'll assume to be in the
     # static folder
-    image = models.CharField(max_length=500)
-    slug = models.SlugField(max_length=150, unique=True, db_index=True)
-    date = models.DateField(auto_now=True)
     title = models.CharField(max_length=150)
+    slug = models.SlugField(max_length=150, unique=True, db_index=True)
+    image = models.CharField(max_length=500)
+    date = models.DateField(auto_now=True)
     excerpt = models.TextField()  # could just be a longer CharField
     content = models.TextField()
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="posts")
