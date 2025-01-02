@@ -416,3 +416,4 @@ pyrightconfig.json
 /.idea/
 /monthly_challenges/.idea/
 /my_site/.idea/inspectionProfiles/
+/.DS_Store
