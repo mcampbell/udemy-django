@@ -1,15 +1,22 @@
+{% load static %}
+
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Reviews</title>
+    <link rel="stylesheet" href="{% static "reviews/styles.css" %}">
 </head>
 <body>
 <form action="/" method="POST">
     {% csrf_token %}
-    {{ form }}
-    <button type="submit">Send!</button>
+    <div class="form-control {% if form.username.errors %}errors{% endif %}">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.username.errors }}
+        <button type="submit">Send!</button>
+    </div>
 </form>
 </body>
 </html>

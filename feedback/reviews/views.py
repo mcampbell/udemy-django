@@ -6,16 +6,19 @@ from .forms import ReviewForm
 def review(request):
     # We have both a post (submits a review) and a get (displays the review form) request.
     if request.method == "POST":
-        posted_form = ReviewForm(request.POST)
-        if posted_form.is_valid():
-            print(posted_form.cleaned_data)
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
             return HttpResponseRedirect("/thank-you")
 
-    # We purposely don't do an else here, which gives us the ability to re-display the form if the request was a POST,
-    # but it fails validation and falls through to here, *OR* if it's a GET, which is the more common case.
-    review_form = ReviewForm()
+    else:
+        # create a new empty form to show in the case of a GET. We need to use the same variable name as the POST
+        # request so that can just render WHATEVER form happens to get picked based on HTTP method.
+        form = ReviewForm()
+
+
     return render(request, "reviews/review.html", {
-        "form": review_form
+        "form": form
     })
 
 
