@@ -10,16 +10,8 @@ def review(request):
     if request.method == "POST":
         form = ReviewForm(request.POST)
         if form.is_valid():
-            # save the review to the database
-            # create the Model from the form data
-            clean = form.cleaned_data
-            review_model = Review(
-                username=clean["username"],
-                review=clean["review"],
-                rating=clean["rating"],
-            )
-            # then save to the db
-            review_model.save()
+            # This is a ModelForm so can save directly.
+            form.save()
 
             # everything's cool, move ahead.
             return HttpResponseRedirect("/thank-you")
