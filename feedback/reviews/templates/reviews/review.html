@@ -11,12 +11,14 @@
 <body>
 <form action="/" method="POST">
     {% csrf_token %}
-    <div class="form-control {% if form.username.errors %}errors{% endif %}">
-        {{ form.username.label_tag }}
-        {{ form.username }}
-        {{ form.username.errors }}
-        <button type="submit">Send!</button>
-    </div>
+    {% for field in form %}
+        <div class="form-control {% if field.errors %}errors{% endif %}">
+            {{ field.label_tag }}
+            {{ field }}
+            {{ field.errors }}
+        </div>
+    {% endfor %}
+    <button type="submit">Send!</button>
 </form>
 </body>
 </html>
