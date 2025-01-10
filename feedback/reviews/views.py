@@ -1,6 +1,8 @@
-from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
+
 from .forms import ReviewForm
+from .models import Review
 
 
 def review(request):
@@ -8,7 +10,18 @@ def review(request):
     if request.method == "POST":
         form = ReviewForm(request.POST)
         if form.is_valid():
-            print(form.cleaned_data)
+            # save the review to the database
+            # create the Model from the form data
+            clean = form.cleaned_data
+            review_model = Review(
+                username=clean["username"],
+                review=clean["review"],
+                rating=clean["rating"],
+            )
+            # then save to the db
+            review_model.save()
+
+            # everything's cool, move ahead.
             return HttpResponseRedirect("/thank-you")
 
     else:
@@ -16,10 +29,7 @@ def review(request):
         # request so that can just render WHATEVER form happens to get picked based on HTTP method.
         form = ReviewForm()
 
-
-    return render(request, "reviews/review.html", {
-        "form": form
-    })
+    return render(request, "reviews/review.html", {"form": form})
 
 
 def thank_you(request):
