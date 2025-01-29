@@ -1,7 +1,9 @@
 from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
 from django.shortcuts import render
 from django.views import View
+from django.views.generic import ListView
 from django.views.generic.base import TemplateView
+import time
 
 from .forms import ReviewForm
 from .models import Review
@@ -35,14 +37,19 @@ class ThankYouView(TemplateView):
         context["additional_context"] = "Thanks so much for your review!"
         return context
 
-class ReviewListView(TemplateView):
+
+class ReviewListView(ListView):
     template_name = "reviews/review_list.html"
+    model = Review
+    context_object_name = "reviews"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        reviews = Review.objects.all()
-        context["reviews"] = reviews
+        now = str(time.asctime(time.localtime()))
+        print(now)
+        context["now"] = now
         return context
+
 
 class ReviewDetailView(TemplateView):
     template_name = "reviews/review_detail.html"
