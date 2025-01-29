@@ -1,12 +1,11 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Thank you!</title>
-</head>
-<body>
+{% extends "reviews/base.html" %}
+
+{% block title %}Thank you!{% endblock %}
+
+{% block content %}
     <h1>Thank you for your review!</h1>
-    <a href="/">Back to reviews</a>
-</body>
-</html>
+    {% if additional_context %}
+        <p>{{ additional_context }}</p>
+        <a href="/">Back to reviews</a>
+    {% endif %}
+{% endblock %}
