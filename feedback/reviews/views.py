@@ -1,32 +1,17 @@
-from django.http import HttpResponseRedirect, HttpResponse, HttpRequest
-from django.shortcuts import render
-from django.views import View
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.generic.base import TemplateView
+from django.views.generic.edit import CreateView
 import time
 
 from .forms import ReviewForm
 from .models import Review
 
 
-class ReviewView(View):
-    def get(self, request: HttpRequest) -> HttpResponse:
-        # create a new empty form to show in the case of a GET. We need to use the same variable name as the POST
-        # request so that can just render WHATEVER form happens to get picked based on HTTP method.
-        form = ReviewForm()
-        return render(request, "reviews/review.html", {"form": form})
-
-    def post(self, request: HttpRequest) -> HttpResponse:
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            # This is a ModelForm so can save directly.
-            form.save()
-
-            # everything's cool, move ahead.
-            return HttpResponseRedirect("/thank-you")
-
-        else:
-            return render(request, "reviews/review.html", {"form": form})
+class ReviewView(CreateView):
+    model = Review
+    form_class = ReviewForm
+    template_name = "reviews/review.html"
+    success_url = "/thank-you"
 
 
 class ThankYouView(TemplateView):
@@ -46,16 +31,10 @@ class ReviewListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         now = str(time.asctime(time.localtime()))
-        print(now)
         context["now"] = now
         return context
 
 
-class ReviewDetailView(TemplateView):
+class ReviewDetailView(DetailView):
     template_name = "reviews/review_detail.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        review = Review.objects.get(pk=kwargs["pk"])
-        context["review"] = review
-        return context
+    model = Review
