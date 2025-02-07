@@ -17,6 +17,7 @@ dependencies = [
     "mypy-extensions==1.0.0",
     "packaging==24.1",
     "pathspec==0.12.1",
+    "pillow>=11.1.0",
     "platformdirs==4.3.6",
     "playwright==1.48.0",
     "pluggy==1.5.0",
