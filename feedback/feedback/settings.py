@@ -126,3 +126,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MEDIA_ROOT = "/tmp"
 MEDIA_URL = "/media/"
+
+SESSION_COOKIE_AGE=300
