@@ -1,7 +1,10 @@
-from django.views.generic import ListView, DetailView
-from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView
 import time
+
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.views.generic import ListView, DetailView
+from django.views.generic.base import TemplateView, View
+from django.views.generic.edit import CreateView
 
 from .forms import ReviewForm
 from .models import Review
@@ -38,3 +41,12 @@ class ReviewListView(ListView):
 class ReviewDetailView(DetailView):
     template_name = "reviews/review_detail.html"
     model = Review
+
+
+class AddFavoriteView(View):
+    def post(self, request):
+        review_id = request.POST["review_id"]
+        request.session['favorite_review'] = review_id
+
+        # Should use reverse() here.
+        return HttpResponseRedirect(reverse('review-detail', args=[review_id]))
