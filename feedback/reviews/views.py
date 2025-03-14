@@ -42,6 +42,15 @@ class ReviewDetailView(DetailView):
     template_name = "reviews/review_detail.html"
     model = Review
 
+    def get_context_data(self, **kwargs):
+        review = self.object
+        context = super().get_context_data(**kwargs)
+        # Set the context's "is_favorite" to true IF the current review has the same id as the session's
+        # "favorite_review" value.
+        review_id = self.request.session.get('favorite_review')
+        context["is_favorite"] = review_id is not None and str(review_id) == str(review.id)
+        return context
+
 
 class AddFavoriteView(View):
     def post(self, request):

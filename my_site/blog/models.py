@@ -25,7 +25,7 @@ class Post(models.Model):
     # static folder
     title = models.CharField(max_length=150)
     slug = models.SlugField(max_length=150, unique=True, db_index=True)
-    image = models.CharField(max_length=500)
+    image = models.ImageField(upload_to="posts", null=True)
     date = models.DateField(auto_now=True)
     excerpt = models.TextField()  # could just be a longer CharField
     content = models.TextField()
