@@ -21,8 +21,6 @@ class Tag(models.Model):
 
 
 class Post(models.Model):
-    # Normally this'd be a URL, but for simplicity, we're just using the image name which we'll assume to be in the
-    # static folder
     title = models.CharField(max_length=150)
     slug = models.SlugField(max_length=150, unique=True, db_index=True)
     image = models.ImageField(upload_to="posts", null=True)
