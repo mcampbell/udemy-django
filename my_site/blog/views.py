@@ -1,5 +1,6 @@
 from django.views.generic import TemplateView, DetailView, ListView
 
+from .forms import CommentForm
 from .models import Post
 
 # This could also be a ListView since we're getting an abbreviated list of Posts.  We'd still have to override
@@ -26,3 +27,10 @@ class PostDetailView(DetailView):
     template_name = "blog/post-detail.html"
     # context_object_name = "post"
     # pk not required since we're using slug, and Django knows that and does it automatically.
+
+    # We want the comment view on this page, so we put it into the context for the post detail to render.
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["comment_form"] = CommentForm()
+        return context
+
