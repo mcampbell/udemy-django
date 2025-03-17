@@ -30,8 +30,14 @@
         <p>{{ post.content|linebreaks }}</p>
     </main>
     <div>
-        <form>
-            {{ comment_form }}
+        <form id="comment-form">
+            {% for field in comment_form %}
+                <div class="form-control">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
             <button type="submit">Save Comment</button>
         </form>
     </div>
