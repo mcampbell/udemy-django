@@ -29,3 +29,13 @@ class Post(models.Model):
     content = models.TextField()
     author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="posts")
     tags = models.ManyToManyField(Tag, related_name="posts")
+
+
+# Comment model.  Every post can have multiple comments, but a comment can only belong to one post.
+# A comment is also tied to the user that created it.
+class Comment(models.Model):
+    user_name = models.CharField(max_length=100)
+    user_email = models.EmailField()
+    text = models.TextField(max_length=500)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="comments")
+    date = models.DateField(auto_now=True)
