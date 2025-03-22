@@ -1,7 +1,12 @@
-from django.views.generic import TemplateView, DetailView, ListView
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.urls import reverse
+from django.views import View
+from django.views.generic import ListView, TemplateView
 
 from .forms import CommentForm
 from .models import Post
+
 
 # This could also be a ListView since we're getting an abbreviated list of Posts.  We'd still have to override
 # get_queryset, to do the limiting.
@@ -22,15 +27,28 @@ class PostListView(ListView):
     ordering = ["-date"]
 
 
-class PostDetailView(DetailView):
-    model = Post
-    template_name = "blog/post-detail.html"
-    # context_object_name = "post"
-    # pk not required since we're using slug, and Django knows that and does it automatically.
+class PostDetailView(View):
+    def get(self, request, slug=None):
+        post = Post.objects.get(slug=slug)
+        context = {
+            "post": post,
+            "comment_form": CommentForm(),
+        }
+        return render(request, "blog/post-detail.html", context)
 
-    # We want the comment view on this page, so we put it into the context for the post detail to render.
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["comment_form"] = CommentForm()
-        return context
+    def post(self, request, slug=None):
+        # We get the slug because it's already part of the URL that got us here
+        comment_form = CommentForm(request.POST)
+        post = Post.objects.get(slug=slug)
 
+        if comment_form.is_valid():
+            transient = comment_form.save(commit=False)
+            transient.post = post
+            transient.save()
+            return HttpResponseRedirect(reverse("post_detail", args=[slug]))
+        else:
+            context = {
+                "post": post,
+                "comment_form": CommentForm(),
+            }
+            return render(request, "blog/post-detail.html", context)
