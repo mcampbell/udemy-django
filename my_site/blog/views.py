@@ -49,6 +49,6 @@ class PostDetailView(View):
         else:
             context = {
                 "post": post,
-                "comment_form": CommentForm(),
+                "comment_form": comment_form,
             }
             return render(request, "blog/post-detail.html", context)
